@@ -1,4 +1,4 @@
-const { LOGIN_SUCCESS, LOGIN_FAIL } = require("../constants")
+const { LOGIN_SUCCESS, LOGIN_FAIL, SIGNUP_FAIL, SIGNUP_SUCCESS } = require("../constants")
 
 const initState = {
     name: '',
@@ -11,8 +11,10 @@ const initState = {
 const user = (state = initState, action) => {
     const { name, isAuthenticated, message } = action.data;
     switch (action.type) {
+        case SIGNUP_SUCCESS:
         case LOGIN_SUCCESS:
             return { ...state, name, isAuthenticated }
+        case SIGNUP_FAIL:
         case LOGIN_FAIL:
             return { ...state, isAuthenticated, message }
         default:
