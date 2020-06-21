@@ -1,18 +1,23 @@
-const { CREATE_FLOW, DELETE_FLOW, TOGGLE_FLOW_STATUS } = require("../constants");
+const { CREATE_FLOW, DELETE_FLOW, TOGGLE_FLOW_STATUS, MODIFY_TASK, CREATE_TASK, DELETE_ERROR } = require("../constants");
 
 const initState = {
-    workflows: JSON.parse(localStorage.getItem('workflows'))
+    workflows: JSON.parse(localStorage.getItem('workflows')),
+    message: ''
 }
 
 const workflow = (state = initState, action) => {
     const { type, data } = action;
     switch (type) {
+        case MODIFY_TASK:
+        case CREATE_TASK:
         case CREATE_FLOW:
             return { ...state, workflows: data }
         case DELETE_FLOW:
             return { ...state, workflows: data }
         case TOGGLE_FLOW_STATUS:
             return { ...state, workflows: data }
+        case DELETE_ERROR:
+            return { ...state, message: data }
         default:
             return state;
     }

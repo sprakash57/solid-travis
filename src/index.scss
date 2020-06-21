@@ -36,14 +36,14 @@ body {
 @mixin icon {
   border-radius: 50%;
   padding: 9px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .trash-icon {
   @include icon();
   background-color: red;
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .completed {
@@ -54,6 +54,11 @@ body {
 .pending {
   @include icon();
   background-color: grey;
+}
+
+.inprogress {
+  @include icon();
+  background-color: blue;
 }
 
 .corner {

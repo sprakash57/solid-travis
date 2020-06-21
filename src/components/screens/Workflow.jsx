@@ -19,7 +19,6 @@ const Workflow = ({ state, createFlow, deleteFlow }) => {
         deleteFlow(id);
     }
 
-    console.log(state);
     return (
         <main className="container-fluid mt-3">
             <section className="row">
