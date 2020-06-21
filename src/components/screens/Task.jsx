@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Task = () => {
-    return <div>Task</div>
+const Task = ({ match }) => {
+    return <div>{match.params.id}</div>
 }
 
 export default Task;

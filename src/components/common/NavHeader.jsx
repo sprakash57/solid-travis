@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/index';
+import { logout } from '../../actions/user';
 
 const NavHeader = ({ state, logout }) => {
 

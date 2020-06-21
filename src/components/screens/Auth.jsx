@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../common/Input';
 import { connect } from 'react-redux';
-import { login, register, rememberMe } from '../../actions/index';
+import { login, register, rememberMe } from '../../actions/user';
 import { Redirect } from 'react-router-dom';
 
 const Auth = ({ state, login, register, rememberMe }) => {

@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={Auth} />
         <PrivateRoute exact path='/workflow' component={Workflow} />
-        <PrivateRoute exact path='/task' component={Task} />
+        <PrivateRoute exact path='/workflow/:id' component={Task} />
       </Switch>
     </BrowserRouter>
   );

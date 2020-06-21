@@ -27,3 +27,42 @@ body {
     color: white;
   }
 }
+
+.workflow-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin icon {
+  border-radius: 50%;
+  padding: 9px;
+}
+
+.trash-icon {
+  @include icon();
+  background-color: red;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.completed {
+  @include icon();
+  background-color: green;
+}
+
+.pending {
+  @include icon();
+  background-color: grey;
+}
+
+.corner {
+  position: relative;
+  left: 1rem;
+  top: -1rem;
+}
+
+.workflow-card {
+  width: 10rem;
+  padding: 5px;
+}
