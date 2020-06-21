@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../common/Input';
+import { connect } from 'react-redux';
+import { login, register, rememberMe } from '../../actions/index';
+import { Redirect } from 'react-router-dom';
 
-const Auth = () => {
-
+const Auth = ({ state, login, register, rememberMe }) => {
     const [user, setUser] = useState({
         name: '',
         email: '',
         password: ''
     })
-
     const [loginForm, setLoginForm] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -17,6 +19,17 @@ const Auth = () => {
 
     const handleToggle = () => {
         setLoginForm(!loginForm)
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (loginForm) login(e.target.email.value, e.target.password.value)
+        else register(e.target.name.value, e.target.email.value, e.target.password.value);
+        rememberMe(loggedIn);
+    }
+
+    const handleRememberMe = e => {
+        setLoggedIn(e.target.checked);
     }
 
     const renderName = () => {
@@ -36,13 +49,17 @@ const Auth = () => {
         return null;
     }
 
+    if (state.isAuthenticated || localStorage.getItem('loggedIn') === 'on') {
+        return <Redirect to='/workflow' />
+    }
+
     const btnText = loginForm ? 'Login' : 'Sign up';
 
     const accountCheck = loginForm ? "Don't have an account? Sign up here" : "Already have an Account ? Login here";
 
     return (
         <main className='login-form'>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <h3 className="text-center">{btnText}</h3>
                 {renderName()}
                 <div className="form-group">
@@ -66,10 +83,10 @@ const Auth = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block">{btnText}</button>
+                    <button className="btn btn-primary btn-block">{btnText}</button>
                 </div>
                 <div className="clearfix">
-                    <label className="pull-left checkbox-inline"><input type="checkbox" /> Remember me</label>
+                    <label className="pull-left checkbox-inline"><input checked={loggedIn} type="checkbox" onChange={handleRememberMe} /> Remember me</label>
                 </div>
             </form>
             <button className="btn btn-link" onClick={handleToggle}>{accountCheck}</button>
@@ -77,4 +94,6 @@ const Auth = () => {
     )
 }
 
-export default Auth;
+const mapStates = state => ({ state: state.user });
+
+export default connect(mapStates, { login, register, rememberMe })(Auth);
