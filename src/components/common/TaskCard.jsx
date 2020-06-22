@@ -24,11 +24,12 @@ const TaskCard = ({ task, flowId, modifyTask }) => {
     }
 
     const handleStatus = () => {
+        let status = 'pending';
         if (details.status !== 'completed') {
-            const status = details.status === 'pending' ? "inprogress" : 'completed';
-            setDetails({ ...details, status });
-            modifyTask({ ...details, status }, flowId);
+            status = details.status === 'pending' ? "inprogress" : 'completed';
         }
+        setDetails({ ...details, status });
+        modifyTask({ ...details, status }, flowId);
     }
 
     return (
@@ -38,7 +39,14 @@ const TaskCard = ({ task, flowId, modifyTask }) => {
                 <FontAwesomeIcon icon={faCheck} className={`${details.status} corner`} size='2x' color='white' onClick={handleStatus} />
             </article>
             <article>
-                <textarea name='content' onChange={handleChange} value={details.content} onBlur={handleContent} />
+                <textarea
+                    name='content'
+                    value={details.content}
+                    className='content-area'
+                    cols='24'
+                    rows='10'
+                    onChange={handleChange}
+                    onBlur={handleContent} />
             </article>
         </section>
     )

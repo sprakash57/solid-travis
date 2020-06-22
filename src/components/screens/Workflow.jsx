@@ -21,7 +21,7 @@ const Workflow = ({ state, createFlow, deleteFlow }) => {
 
     return (
         <main className="container-fluid mt-3">
-            <section className="row">
+            <section className="row section-border">
                 <section className="col-5">
                     <Input
                         type='text'
