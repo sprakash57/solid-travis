@@ -3,13 +3,16 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, SIGNUP_SUCCESS, SIGNUP_FAIL, REMEMBER_ME } f
 export const login = (email, password) => dispatch => {
     if (window.localStorage !== undefined) {
         let user = localStorage.getItem('user');
-        if (user) user = JSON.parse(user);
-        else user = '';
-        const { name, mail, pass } = user;
-        if (email === mail && password === pass) {
-            dispatch({ type: LOGIN_SUCCESS, data: { name, isAuthenticated: true } });
+        if (user) {
+            user = JSON.parse(user);
+            const { name, mail, pass } = user;
+            if (email === mail && password === pass) {
+                dispatch({ type: LOGIN_SUCCESS, data: { name, isAuthenticated: true } });
+            } else {
+                dispatch({ type: LOGIN_FAIL, data: { isAuthenticated: false, message: 'Credentials do not match!' } });
+            }
         } else {
-            dispatch({ type: LOGIN_FAIL, data: { isAuthenticated: false, message: 'Credentials do not match' } });
+            dispatch({ type: LOGIN_FAIL, data: { isAuthenticated: false, message: 'User does not exist!' } });
         }
     } else {
         dispatch({ type: LOGIN_FAIL, data: { isAuthenticated: false, message: 'Storage not available' } });
@@ -18,8 +21,13 @@ export const login = (email, password) => dispatch => {
 
 export const register = (name, mail, pass) => dispatch => {
     if (window.localStorage !== undefined) {
-        localStorage.setItem('user', JSON.stringify({ name, mail, pass }));
-        dispatch({ type: SIGNUP_SUCCESS, data: { name, isAuthenticated: true } });
+        let user = JSON.parse(localStorage.getItem('user')) || '';
+        if (user && user.mail === mail) {
+            dispatch({ type: LOGIN_FAIL, data: { isAuthenticated: false, message: 'User already exists!' } });
+        } else {
+            localStorage.setItem('user', JSON.stringify({ name, mail, pass }));
+            dispatch({ type: SIGNUP_SUCCESS, data: { name, isAuthenticated: true } });
+        }
     } else {
         dispatch({ type: SIGNUP_FAIL, data: { isAuthenticated: false, message: 'Storage not available' } });
     }

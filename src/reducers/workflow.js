@@ -1,7 +1,7 @@
 const { CREATE_FLOW, DELETE_FLOW, TOGGLE_FLOW_STATUS, MODIFY_TASK, CREATE_TASK, DELETE_ERROR, MODIFY_FLOW } = require("../constants");
 
 const initState = {
-    workflows: JSON.parse(localStorage.getItem('workflows')),
+    workflows: JSON.parse(localStorage.getItem('workflows')) || [],
     message: ''
 }
 

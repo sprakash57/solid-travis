@@ -62,12 +62,15 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
                 </section>
             </section>
             <section className="task-row">
-                {filter.items.map((workflow, i) => <WorkflowCard
-                    key={i}
-                    workflow={workflow}
-                    onDelete={handleDelete}
-                    onStatusChange={handleStatusChange}
-                />)}
+                {filter.items.length
+                    ? filter.items.map((workflow, i) => <WorkflowCard
+                        key={i}
+                        workflow={workflow}
+                        onDelete={handleDelete}
+                        onStatusChange={handleStatusChange}
+                    />)
+                    : null
+                }
             </section>
         </main>
     )

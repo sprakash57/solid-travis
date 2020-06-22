@@ -3,6 +3,7 @@ import Input from '../common/Input';
 import { connect } from 'react-redux';
 import { login, register, rememberMe } from '../../actions/user';
 import { Redirect } from 'react-router-dom';
+import Alert from '../common/Alert';
 
 const Auth = ({ state, login, register, rememberMe }) => {
     const [user, setUser] = useState({
@@ -18,12 +19,12 @@ const Auth = ({ state, login, register, rememberMe }) => {
     }
 
     const handleToggle = () => {
-        setLoginForm(!loginForm)
+        setLoginForm(!loginForm);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-        if (loginForm) login(e.target.email.value, e.target.password.value)
+        if (loginForm) login(e.target.email.value, e.target.password.value);
         else register(e.target.name.value, e.target.email.value, e.target.password.value);
         rememberMe(loggedIn);
     }
@@ -59,6 +60,7 @@ const Auth = ({ state, login, register, rememberMe }) => {
 
     return (
         <main className='login-form'>
+            {state.message && <Alert msg={state.message} />}
             <form onSubmit={handleSubmit}>
                 <h5 className="text-center mb-5">{btnText}</h5>
                 {renderName()}

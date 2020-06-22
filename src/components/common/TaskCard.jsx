@@ -44,7 +44,7 @@ const TaskCard = ({ task, flowId, modifyTask }) => {
                     value={details.content}
                     className='content-area'
                     cols='24'
-                    rows='10'
+                    rows='8'
                     onChange={handleChange}
                     onBlur={handleContent} />
             </article>
