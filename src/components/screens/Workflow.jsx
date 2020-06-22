@@ -6,10 +6,18 @@ import { connect } from 'react-redux';
 import { createFlow, deleteFlow, modifyFlow } from '../../actions/workflow';
 
 const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
+    const [search, setSearch] = useState('');
     const [filter, setFilter] = useState({
         items: state.workflows,
         status: ''
     })
+
+    const handleSearch = e => {
+        const pattern = new RegExp(e.target.value, 'gi');
+        const filtered = state.workflows.filter(workflow => pattern.test(workflow.name));
+        setFilter({ ...filter, items: filtered });
+        setSearch(e.target.value);
+    }
 
     const handleFilter = e => {
         let filteredFlows = state.workflows;
@@ -42,6 +50,8 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
                         type='text'
                         placeholder='Search Workflows'
                         name='search'
+                        value={search}
+                        onChange={handleSearch}
                     />
                 </section>
                 <section className="col-2">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Input from '../common/Input';
 import { connect } from 'react-redux';
 import { login, register, rememberMe } from '../../actions/user';
@@ -60,7 +60,7 @@ const Auth = ({ state, login, register, rememberMe }) => {
     return (
         <main className='login-form'>
             <form onSubmit={handleSubmit}>
-                <h3 className="text-center">{btnText}</h3>
+                <h5 className="text-center mb-5">{btnText}</h5>
                 {renderName()}
                 <div className="form-group">
                     <Input
@@ -82,14 +82,14 @@ const Auth = ({ state, login, register, rememberMe }) => {
                         onChange={handleChange}
                     />
                 </div>
+                <div className="clearfix mb-3 mt-3">
+                    <label className="pull-left checkbox-inline"><input checked={loggedIn} type="checkbox" onChange={handleRememberMe} /> Remember me</label>
+                </div>
                 <div className="form-group">
                     <button className="btn btn-primary btn-block">{btnText}</button>
                 </div>
-                <div className="clearfix">
-                    <label className="pull-left checkbox-inline"><input checked={loggedIn} type="checkbox" onChange={handleRememberMe} /> Remember me</label>
-                </div>
+                <button className="btn btn-link" onClick={handleToggle}>{accountCheck}</button>
             </form>
-            <button className="btn btn-link" onClick={handleToggle}>{accountCheck}</button>
         </main>
     )
 }
