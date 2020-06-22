@@ -1,6 +1,6 @@
 import React from 'react';
 
-const options = ['ALL', 'PENDING', 'COMPLETED'];
+const options = ['all', 'pending', 'completed'];
 
 const Filter = ({ onChange, value }) => {
 
@@ -10,7 +10,7 @@ const Filter = ({ onChange, value }) => {
 
     return (
         <select name="filter" id="filter" className="custom-select" value={value} onChange={handleChange}>
-            {options.map((item, i) => <option key={i} value={item}>{item}</option>)}
+            {options.map((item, i) => <option key={i} value={item}>{item.toUpperCase()}</option>)}
         </select>
     )
 }

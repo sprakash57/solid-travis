@@ -6,9 +6,20 @@ import { connect } from 'react-redux';
 import { createFlow, deleteFlow, modifyFlow } from '../../actions/workflow';
 
 const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
-    const [filter, setFilter] = useState();
-    const handleChange = e => {
-        setFilter(e.target.value)
+    const [filter, setFilter] = useState({
+        items: state.workflows,
+        status: ''
+    })
+
+    const handleFilter = e => {
+        let filteredFlows = state.workflows;
+        if (e.target.value !== 'all')
+            filteredFlows = state.workflows.filter(workflow => workflow.status === e.target.value);
+        setFilter({
+            ...filter,
+            items: filteredFlows.length ? filteredFlows : filter.items,
+            status: e.target.value
+        })
     }
 
     const handleCreate = () => {
@@ -34,14 +45,14 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
                     />
                 </section>
                 <section className="col-2">
-                    <Filter value={filter} onChange={handleChange} />
+                    <Filter value={filter.status} onChange={handleFilter} />
                 </section>
                 <section className="col-5 text-right">
                     <button className='btn btn-success' onClick={handleCreate}>Create</button>
                 </section>
             </section>
             <section className="task-row">
-                {state.workflows.map((workflow, i) => <WorkflowCard
+                {filter.items.map((workflow, i) => <WorkflowCard
                     key={i}
                     workflow={workflow}
                     onDelete={handleDelete}

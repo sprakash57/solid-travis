@@ -23,7 +23,7 @@ const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
 
     useEffect(() => {
         handleStatus();
-    }, [])
+    }, [workflow])
 
     return (
         <section className="card workflow-card">

@@ -4,7 +4,7 @@ import { CREATE_FLOW, DELETE_FLOW, MODIFY_TASK, CREATE_TASK, DELETE_ERROR, MODIF
 
 export const createFlow = () => dispatch => {
     const workflows = JSON.parse(localStorage.getItem('workflows')) || [];
-    const newWorkflow = { id: uuid(), name: `WORKFLOW ${workflows.length + 1}`, status: 'PENDING', tasks: [] };
+    const newWorkflow = { id: uuid(), name: `WORKFLOW ${workflows.length + 1}`, status: 'pending', tasks: [] };
     workflows.push(newWorkflow);
     localStorage.setItem('workflows', JSON.stringify(workflows));
     dispatch({ type: CREATE_FLOW, data: workflows })
