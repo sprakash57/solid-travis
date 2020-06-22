@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
     const { id, name, status, tasks } = workflow;
     const [statusColor, setStatusColor] = useState()
+    const [showTrash, setShowTrash] = useState(false);
 
     const handleDelete = () => {
         onDelete(id);
@@ -21,15 +22,23 @@ const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
         onStatusChange(workflow);
     }
 
+    const showTrashIcon = () => {
+        setShowTrash(true);
+    }
+
+    const hideTrashIcon = () => {
+        setShowTrash(false);
+    }
+
     useEffect(() => {
         handleStatus();
     }, [workflow])
 
     return (
-        <section className="card workflow-card">
+        <section className="card workflow-card mr-5" onMouseEnter={showTrashIcon} onMouseLeave={hideTrashIcon}>
             <article className='workflow-title'>
                 <p className='workflow-name'><Link to={`/workflow/${id}`}>{name}</Link></p>
-                <FontAwesomeIcon icon={faTrash} className='trash-icon corner' size='2x' color='white' onClick={handleDelete} />
+                {showTrash && <FontAwesomeIcon icon={faTrash} className='trash-icon corner' size='2x' color='white' onClick={handleDelete} />}
             </article>
             <article className='workflow-status'>
                 <small className='mr-5 w-50'>{status.toUpperCase()}</small>

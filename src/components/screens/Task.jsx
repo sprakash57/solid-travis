@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import TaskCard from '../common/TaskCard';
 import { createTask, deleteTask, shuffleTask, modifyFlow } from '../../actions/workflow';
 import { Link } from 'react-router-dom';
+import Arrow from '../common/Arrow';
 
 const Task = ({ match, state, createTask, deleteTask, shuffleTask, modifyFlow }) => {
     const { id } = match.params;
@@ -50,7 +51,12 @@ const Task = ({ match, state, createTask, deleteTask, shuffleTask, modifyFlow })
                 </section>
             </section>
             <section className="task-row">
-                {tasks.length ? tasks.map((task, i) => <TaskCard key={i} task={task} flowId={id} />) : null}
+                {tasks.length ? tasks.map((task, i) => (
+                    <React.Fragment key={i}>
+                        <TaskCard key={i} task={task} flowId={id} />
+                        {+i < tasks.length - 1 ? <Arrow /> : null}
+                    </React.Fragment>
+                )) : null}
             </section>
         </main>
     )
