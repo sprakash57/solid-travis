@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
 
-const WorkflowCard = ({ name, status, id, onDelete }) => {
-
+const WorkflowCard = ({ workflow, onDelete }) => {
+    const { id, name, status } = workflow;
     const statusColor = status => status === 'PENDING' ? 'pending' : 'completed';
 
     const handleDelete = () => {

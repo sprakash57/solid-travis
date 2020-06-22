@@ -39,9 +39,7 @@ const Workflow = ({ state, createFlow, deleteFlow }) => {
             <section className="row mt-5">
                 {state.workflows.map((workflow, i) => <WorkflowCard
                     key={i}
-                    name={workflow.name}
-                    status={workflow.status}
-                    id={workflow.id}
+                    workflow={workflow}
                     onDelete={handleDelete}
                 />)}
             </section>

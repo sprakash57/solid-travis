@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { CREATE_FLOW, DELETE_FLOW, MODIFY_TASK, CREATE_TASK, DELETE_ERROR } from "../constants";
+import _ from 'lodash';
+import { CREATE_FLOW, DELETE_FLOW, MODIFY_TASK, CREATE_TASK, DELETE_ERROR, MODIFY_FLOW } from "../constants";
 
 export const createFlow = () => dispatch => {
     const workflows = JSON.parse(localStorage.getItem('workflows')) || [];
@@ -14,6 +15,14 @@ export const deleteFlow = id => dispatch => {
     workflows = workflows.filter(workflow => workflow.id !== id);
     localStorage.setItem('workflows', JSON.stringify(workflows));
     dispatch({ type: DELETE_FLOW, data: workflows })
+}
+
+export const modifyFlow = (flow) => (dispatch, getState) => {
+    const { workflow: { workflows } } = getState();
+    let currentWorkflow = workflows.find(workflow => workflow.id === flow.id);
+    currentWorkflow = flow;
+    localStorage.setItem('workflows', JSON.stringify(workflows));
+    dispatch({ type: MODIFY_FLOW, data: workflows })
 }
 
 export const createTask = id => (dispatch, getState) => {
@@ -43,6 +52,14 @@ export const modifyTask = (task, flowId) => (dispatch, getState) => {
     const currentWorkflow = workflows.find(workflow => workflow.id === flowId);
     let index = currentWorkflow.tasks.findIndex(task => task.id === id);
     currentWorkflow.tasks[index] = task;
+    localStorage.setItem('workflows', JSON.stringify(workflows));
+    dispatch({ type: MODIFY_TASK, data: workflows });
+}
+
+export const shuffleTask = id => (dispatch, getState) => {
+    const { workflow: { workflows } } = getState();
+    const currentWorkflow = workflows.find(workflow => workflow.id === id);
+    currentWorkflow.tasks = _.shuffle(currentWorkflow.tasks);
     localStorage.setItem('workflows', JSON.stringify(workflows));
     dispatch({ type: MODIFY_TASK, data: workflows });
 }

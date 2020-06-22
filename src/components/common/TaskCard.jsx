@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -6,12 +7,7 @@ import { modifyTask } from '../../actions/workflow';
 import { connect } from 'react-redux';
 
 const TaskCard = ({ task, flowId, modifyTask }) => {
-    const [details, setDetails] = useState({
-        id: task.id,
-        name: task.name,
-        content: task.content,
-        status: task.status
-    })
+    const [details, setDetails] = useState(task)
 
     const handleChange = e => {
         setDetails({ ...details, [e.target.name]: e.target.value });
@@ -23,7 +19,6 @@ const TaskCard = ({ task, flowId, modifyTask }) => {
     }
 
     const handleName = e => {
-        console.log(details.name, e.target.value)
         if (task.name !== e.target.value)
             modifyTask({ ...details, name: e.target.value }, flowId)
     }
