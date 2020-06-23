@@ -1,11 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { modifyFlow } from '../../actions/workflow';
 
-const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
+const WorkflowCard = ({ workflow, onDelete, modifyFlow }) => {
     const { id, name, status, tasks } = workflow;
-    const [statusColor, setStatusColor] = useState()
+    const [statusColor, setStatusColor] = useState(status);
     const [showTrash, setShowTrash] = useState(false);
 
     const handleDelete = () => {
@@ -19,7 +22,7 @@ const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
         }
         setStatusColor(colorCheck);
         workflow.status = colorCheck;
-        onStatusChange(workflow);
+        modifyFlow(workflow);
     }
 
     const showTrashIcon = () => {
@@ -31,7 +34,11 @@ const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
     }
 
     useEffect(() => {
-        handleStatus();
+        let color = 'pending';
+        if (tasks.length && tasks.every(task => task.status === 'completed')) color = 'completed';
+        setStatusColor(color);
+        workflow.status = color;
+        modifyFlow(workflow);
     }, [workflow])
 
     return (
@@ -41,11 +48,11 @@ const WorkflowCard = ({ workflow, onDelete, onStatusChange }) => {
                 {showTrash && <FontAwesomeIcon icon={faTrash} className='trash-icon corner' size='2x' color='white' onClick={handleDelete} />}
             </article>
             <article className='workflow-status'>
-                <small className='mr-5 w-50'>{status.toUpperCase()}</small>
+                <small className='mr-5 w-50'>{statusColor.toUpperCase()}</small>
                 <FontAwesomeIcon icon={faCheck} className={statusColor} size='2x' color='white' onClick={handleStatus} />
             </article>
         </section>
     )
 }
 
-export default WorkflowCard;
+export default connect(null, { modifyFlow })(WorkflowCard);

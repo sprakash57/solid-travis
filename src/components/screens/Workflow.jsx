@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../common/Input';
 import Filter from '../common/Filter';
 import WorkflowCard from '../common/WorkflowCard';
 import { connect } from 'react-redux';
-import { createFlow, deleteFlow, modifyFlow } from '../../actions/workflow';
+import { createFlow, deleteFlow } from '../../actions/workflow';
 
-const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
+const Workflow = ({ state, createFlow, deleteFlow }) => {
     const [search, setSearch] = useState('');
-    const [filter, setFilter] = useState({
-        items: state.workflows,
-        status: ''
-    })
+    const [filterValue, setFilterValue] = useState('all');
+    const [filter, setFilter] = useState(state.workflows);
 
     const handleSearch = e => {
         const pattern = new RegExp(e.target.value, 'gi');
@@ -20,14 +18,7 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
     }
 
     const handleFilter = e => {
-        let filteredFlows = state.workflows;
-        if (e.target.value !== 'all')
-            filteredFlows = state.workflows.filter(workflow => workflow.status === e.target.value);
-        setFilter({
-            ...filter,
-            items: filteredFlows.length ? filteredFlows : filter.items,
-            status: e.target.value
-        })
+        setFilterValue(e.target.value);
     }
 
     const handleCreate = () => {
@@ -38,9 +29,12 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
         deleteFlow(id);
     }
 
-    const handleStatusChange = workflow => {
-        modifyFlow(workflow);
-    }
+    useEffect(() => {
+        let filteredFlows = state.workflows;
+        console.log(filteredFlows);
+        if (filterValue !== 'all') filteredFlows = filteredFlows.filter(workflow => workflow.status === filterValue);
+        setFilter(filteredFlows);
+    }, [filterValue, state])
 
     return (
         <main className="container-fluid mt-3">
@@ -55,19 +49,18 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
                     />
                 </section>
                 <section className="col-2">
-                    <Filter value={filter.status} onChange={handleFilter} />
+                    <Filter value={filterValue} onChange={handleFilter} />
                 </section>
                 <section className="col-5 text-right">
                     <button className='btn btn-success' onClick={handleCreate}>Create</button>
                 </section>
             </section>
             <section className="task-row">
-                {filter.items.length
-                    ? filter.items.map((workflow, i) => <WorkflowCard
+                {filter.length
+                    ? filter.map((workflow, i) => <WorkflowCard
                         key={i}
                         workflow={workflow}
                         onDelete={handleDelete}
-                        onStatusChange={handleStatusChange}
                     />)
                     : null
                 }
@@ -78,4 +71,4 @@ const Workflow = ({ state, createFlow, deleteFlow, modifyFlow }) => {
 
 const mapStates = state => ({ state: state.workflow })
 
-export default connect(mapStates, { createFlow, deleteFlow, modifyFlow })(Workflow);
+export default connect(mapStates, { createFlow, deleteFlow })(Workflow);

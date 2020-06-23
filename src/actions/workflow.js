@@ -19,8 +19,8 @@ export const deleteFlow = id => dispatch => {
 
 export const modifyFlow = (flow) => (dispatch, getState) => {
     const { workflow: { workflows } } = getState();
-    let currentWorkflow = workflows.find(workflow => workflow.id === flow.id);
-    currentWorkflow = flow;
+    const index = workflows.findIndex(workflow => workflow.id === flow.id);
+    workflows[index] = flow;
     localStorage.setItem('workflows', JSON.stringify(workflows));
     dispatch({ type: MODIFY_FLOW, data: workflows })
 }
