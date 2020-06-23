@@ -54,9 +54,9 @@ const Auth = ({ state, login, register, rememberMe }) => {
         return <Redirect to='/workflow' />
     }
 
-    const btnText = loginForm ? 'Login' : 'Sign up';
+    const btnText = loginForm ? 'Login' : 'Signup';
 
-    const accountCheck = loginForm ? "Don't have an account? Sign up here" : "Already have an Account ? Login here";
+    const accountCheck = loginForm ? "Don't have an account? Signup here" : "Already have an Account ? Login here";
 
     return (
         <main className='login-form'>
@@ -88,9 +88,9 @@ const Auth = ({ state, login, register, rememberMe }) => {
                     <label className="pull-left checkbox-inline"><input checked={loggedIn} type="checkbox" onChange={handleRememberMe} /> Remember me</label>
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary btn-block">{btnText}</button>
+                    <button type='submit' className="btn btn-primary btn-block">{btnText}</button>
                 </div>
-                <button className="btn btn-link" onClick={handleToggle}>{accountCheck}</button>
+                <button type='button' className="btn btn-link" onClick={handleToggle}>{accountCheck}</button>
             </form>
         </main>
     )

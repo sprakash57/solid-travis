@@ -13,7 +13,7 @@ const NavHeader = ({ state, logout }) => {
     return (
         <nav className='navbar nav-bg justify-content-between'>
             <Link to='/workflow'>FlowApp</Link>
-            {state.loggedIn &&
+            {state.isAuthenticated &&
                 <button className="btn btn-light" onClick={handleLogout}>
                     Logout
                 </button>
