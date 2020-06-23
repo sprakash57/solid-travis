@@ -11,10 +11,10 @@ const Workflow = ({ state, createFlow, deleteFlow }) => {
     const [filter, setFilter] = useState(state.workflows);
 
     const handleSearch = e => {
+        setSearch(e.target.value);
         const pattern = new RegExp(e.target.value, 'gi');
         const filtered = state.workflows.filter(workflow => pattern.test(workflow.name));
-        setFilter({ ...filter, items: filtered });
-        setSearch(e.target.value);
+        setFilter(filtered);
     }
 
     const handleFilter = e => {
@@ -31,7 +31,6 @@ const Workflow = ({ state, createFlow, deleteFlow }) => {
 
     useEffect(() => {
         let filteredFlows = state.workflows;
-        console.log(filteredFlows);
         if (filterValue !== 'all') filteredFlows = filteredFlows.filter(workflow => workflow.status === filterValue);
         setFilter(filteredFlows);
     }, [filterValue, state])

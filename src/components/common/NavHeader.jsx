@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/user';
 
 const NavHeader = ({ state, logout }) => {
-    console.log(state);
     const handleLogout = () => {
         logout();
         window.location.reload();
